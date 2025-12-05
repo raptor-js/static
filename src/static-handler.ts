@@ -9,7 +9,10 @@ export default class StaticHandler {
     this.path = "public";
   }
 
-  public async handler(context: Context, next: CallableFunction): Promise<string | Uint8Array<ArrayBuffer> | Response> {
+  public async handler(
+    context: Context,
+    next: CallableFunction,
+  ): Promise<string | Uint8Array<ArrayBuffer> | Response> {
     const { pathname } = new URL(context.request.url);
 
     if (pathname === "/") return next();
