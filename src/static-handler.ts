@@ -27,7 +27,7 @@ export default class StaticHandler {
    * @param next The next middleware.
    * @returns The static file contents for the response.
    */
-  public async handler(
+  public async handle(
     context: Context,
     next: CallableFunction,
   ): Promise<string | Uint8Array<ArrayBuffer> | Response> {

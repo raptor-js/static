@@ -1,6 +1,6 @@
 {
   "name": "@raptor/static",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "exports": "./mod.ts",
   "publish": {
     "exclude": [
@@ -21,6 +21,6 @@
   },
   "lock": false,
   "imports": {
-    "@raptor/framework": "jsr:@raptor/framework@^0.7.5"
+    "@raptor/framework": "jsr:@raptor/framework@^0.10.0"
   }
 }

@@ -4,9 +4,9 @@
 
 <p align="center">
   <a href="https://github.com/raptor-http/static/actions"><img src="https://github.com/raptor-http/static/workflows/ci/badge.svg" alt="Build Status"></a>
-  <a href="jsr.io/@raptor/static"><img src="https://jsr.io/badges/@raptor/static?logoColor=3A9D95&color=3A9D95&labelColor=083344" /></a>
-  <a href="jsr.io/@raptor/static score"><img src="https://jsr.io/badges/@raptor/static/score?logoColor=3A9D95&color=3A9D95&labelColor=083344" /></a>
-  <a href="https://jsr.io/@raptor"><img src="https://jsr.io/badges/@raptor?logoColor=3A9D95&color=3A9D95&labelColor=083344" alt="" /></a>
+  <a href="jsr.io/@raptor/static"><img src="https://jsr.io/badges/@raptor/static" /></a>
+  <a href="jsr.io/@raptor/static score"><img src="https://jsr.io/badges/@raptor/static/score" /></a>
+  <a href="https://jsr.io/@raptor"><img src="https://jsr.io/badges/@raptor" alt="" /></a>
 </p>
 
 ## Raptor Static
@@ -33,26 +33,9 @@ deno add jsr:@raptor/static
 Raptor is also available to import directly via JSR:
 [https://jsr.io/@raptor/static](https://jsr.io/@raptor/static)
 
-## Usage
+## Documentation
 
-The static handler supports a configurable path, relative to the current working directory.
-
-```ts
-import { StaticHandler } from "jsr:@raptor/static";
-import { Kernel, Context } from "jsr:@raptor/framework";
-
-const app = new Kernel();
-
-const handler = new StaticHandler({
-  path: "public"
-});
-
-app.add((context: Context) => handler.handle(context));
-
-app.add(() => "Hello, Dr Malcolm!");
-
-app.serve({ port: 8000 });
-```
+Full documentation can be found on [https://raptorframework.com/docs](https://raptorframework.com/docs).
 
 ## License
 
