@@ -1,3 +1,6 @@
+/// <reference lib="deno.ns" />
+// deno-lint-ignore-file
+
 import type { Context } from "@raptor/framework";
 import StaticHandler from "../src/static-handler.ts";
 import { assertEquals, assertInstanceOf } from "@std/assert";
