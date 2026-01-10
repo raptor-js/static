@@ -40,7 +40,7 @@
   "peerDependencies": {
     "typescript": "^5"
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@raptor/framework": "npm:@raptor-http/framework@^0.14.4"
   }
