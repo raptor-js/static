@@ -2,9 +2,10 @@
 // deno-lint-ignore-file
 
 import type { Context } from "@raptor/framework";
-import StaticHandler from "../src/static-handler.ts";
 import { assertEquals, assertInstanceOf } from "@std/assert";
 import { afterEach, beforeEach, describe, it } from "@std/testing/bdd";
+
+import StaticHandler from "../src/static-handler.ts";
 
 const createMockContext = (url: string): Context => {
   return {
