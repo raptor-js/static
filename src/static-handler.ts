@@ -1,4 +1,5 @@
-import type { Context } from "@raptor/framework";
+import type { Context, Middleware } from "@raptor/framework";
+
 import { join, normalize } from "./utilities/path.ts";
 import { contentType } from "./utilities/content-type.ts";
 
@@ -21,19 +22,30 @@ export default class StaticHandler {
   }
 
   /**
+   * Wrapper to pre-bind this to the static file handler method.
+   */
+  public get handle(): Middleware {
+    return (context: Context, next: CallableFunction) => {
+      return this.handleStaticFiles(context, next);
+    };
+  }
+
+  /**
    * Handle static file requests.
    *
    * @param context The request context.
    * @param next The next middleware.
    * @returns The static file contents for the response.
    */
-  public async handle(
+  public async handleStaticFiles(
     context: Context,
     next: CallableFunction,
   ): Promise<string | Uint8Array<ArrayBuffer> | Response> {
     const { pathname } = new URL(context.request.url);
 
-    if (pathname === "/") return next();
+    if (pathname === "/") {
+      return next();
+    }
 
     const sanitizedPath = normalize(pathname.replace(/^\/+/, ""));
     const filePath = join(Deno.cwd(), this.path, sanitizedPath);
@@ -41,7 +53,9 @@ export default class StaticHandler {
     try {
       const stat = await Deno.stat(filePath);
 
-      if (stat.isDirectory) return next();
+      if (stat.isDirectory) {
+        return next();
+      }
 
       const file = await Deno.readFile(filePath);
       const ext = filePath.split(".").pop() || "";
@@ -59,6 +73,7 @@ export default class StaticHandler {
       }
 
       const decoder = new TextDecoder("utf-8");
+
       return decoder.decode(file);
     } catch {
       return next();
