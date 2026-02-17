@@ -1,4 +1,4 @@
-// Copyright 2026, @raptor-http. All rights reserved. MIT license.
+// Copyright 2026, Raptor. All rights reserved. MIT license.
 
 import helper from "./src/helper.ts";
 import StaticHandler from "./src/static-handler.ts";

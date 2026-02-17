@@ -1,9 +1,9 @@
 <p align="center">
-  <img src="https://github.com/raptor-http/brand/raw/main/assets/logo.svg" width="150" height="150" alt="Raptor Framework" />
+  <img src="https://github.com/raptor-js/brand/raw/main/assets/logo.svg" width="150" height="150" alt="Raptor Framework" />
 </p>
 
 <p align="center">
-  <a href="https://github.com/raptor-http/static/actions"><img src="https://github.com/raptor-http/static/workflows/ci/badge.svg" alt="Build Status"></a>
+  <a href="https://github.com/raptor-js/static/actions"><img src="https://github.com/raptor-js/static/workflows/ci/badge.svg" alt="Build Status"></a>
   <a href="jsr.io/@raptor/static"><img src="https://jsr.io/badges/@raptor/static" /></a>
   <a href="jsr.io/@raptor/static score"><img src="https://jsr.io/badges/@raptor/static/score" /></a>
   <a href="https://jsr.io/@raptor"><img src="https://jsr.io/badges/@raptor" alt="" /></a>
@@ -11,15 +11,15 @@
 
 ## Raptor Static
 
-See more information about the Raptor framework here: <a href="https://raptorframework.com">https://raptorframework.com</a>.
+See more information about the Raptor framework here: <a href="https://raptorjs.com">https://raptorjs.com</a>.
 
 ## Installation
 
-For installation instructions, please visit <a href="https://raptorframework.com/docs/packages/static">https://raptorframework.com/docs/packages/static</a>
+For installation instructions, please visit <a href="https://raptorjs.com/docs/static-file-handling">https://raptorjs.com/docs/static-file-handling</a>
 
 ## Documentation
 
-Full documentation can be found on [https://raptorframework.com/docs](https://raptorframework.com/docs).
+Full documentation can be found on [https://raptorjs.com/docs](https://raptorjs.com/docs).
 
 ## License
 
