@@ -52,7 +52,11 @@ export default class StaticHandler {
     }
 
     const sanitizedPath = normalize(pathname.replace(/^\/+/, ""));
-    const filePath = join(Deno.cwd(), this.config?.staticFileDirectory!, sanitizedPath);
+    const filePath = join(
+      Deno.cwd(),
+      this.config?.staticFileDirectory!,
+      sanitizedPath,
+    );
 
     try {
       const stat = await Deno.stat(filePath);
@@ -82,6 +86,15 @@ export default class StaticHandler {
     } catch {
       return next();
     }
+  }
+
+  /**
+   * Get the configured kernel config.
+   *
+   * @returns The configured kernel config.
+   */
+  public getConfig(): Config {
+    return this.config!;
   }
 
   /**

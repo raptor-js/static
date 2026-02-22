@@ -63,7 +63,7 @@ describe("static handler", () => {
       "<html>Nested</html>",
     );
 
-    handler = new StaticHandler(testDir);
+    handler = new StaticHandler({ staticFileDirectory: testDir });
   });
 
   afterEach(async () => {
@@ -74,13 +74,18 @@ describe("static handler", () => {
     it("should use default path when no path provided", () => {
       const defaultHandler = new StaticHandler();
 
-      assertEquals(defaultHandler["path"], "public");
+      assertEquals(defaultHandler.getConfig()["staticFileDirectory"], "public");
     });
 
     it("should use provided path", () => {
-      const customHandler = new StaticHandler("custom-path");
+      const customHandler = new StaticHandler({
+        staticFileDirectory: "custom-path",
+      });
 
-      assertEquals(customHandler["path"], "custom-path");
+      assertEquals(
+        customHandler.getConfig()["staticFileDirectory"],
+        "custom-path",
+      );
     });
   });
 
