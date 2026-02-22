@@ -1,5 +1,6 @@
 import type { Context, Middleware } from "@raptor/framework";
 
+import type { Config } from "./config.ts";
 import { join, normalize } from "./utilities/path.ts";
 import { contentType } from "./utilities/content-type.ts";
 
@@ -10,15 +11,18 @@ export default class StaticHandler {
   /**
    * The path to the file.
    */
-  private path: string;
+  private config?: Config;
 
   /**
    * Construct a new static handler middlware.
    *
-   * @param path A configurable path for the handler.
+   * @param config A configurable path for the handler.
    */
-  constructor(path?: string) {
-    this.path = path ?? "public";
+  constructor(config?: Config) {
+    this.config = {
+      ...this.initialiseDefaultConfig(),
+      ...config,
+    };
   }
 
   /**
@@ -48,7 +52,7 @@ export default class StaticHandler {
     }
 
     const sanitizedPath = normalize(pathname.replace(/^\/+/, ""));
-    const filePath = join(Deno.cwd(), this.path, sanitizedPath);
+    const filePath = join(Deno.cwd(), this.config?.staticFileDirectory!, sanitizedPath);
 
     try {
       const stat = await Deno.stat(filePath);
@@ -78,5 +82,16 @@ export default class StaticHandler {
     } catch {
       return next();
     }
+  }
+
+  /**
+   * Initialise the middleware config.
+   *
+   * @returns An initialise set of config.
+   */
+  private initialiseDefaultConfig(): Config {
+    return {
+      staticFileDirectory: "public",
+    };
   }
 }
