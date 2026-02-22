@@ -1,6 +1,6 @@
 {
   "name": "@raptor/static",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "exports": "./mod.ts",
   "compilerOptions": {
     "lib": ["deno.ns", "deno.window"]
