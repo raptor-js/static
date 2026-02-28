@@ -1,7 +1,7 @@
 /// <reference lib="deno.ns" />
 // deno-lint-ignore-file
 
-import type { Context } from "@raptor/framework";
+import type { Context } from "@raptor/kernel";
 import { assertEquals, assertInstanceOf } from "@std/assert";
 import { afterEach, beforeEach, describe, it } from "@std/testing/bdd";
 
