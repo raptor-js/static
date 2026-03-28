@@ -218,8 +218,9 @@ describe("static handler", () => {
 
       const result = await handler.handle(context, next);
 
-      assertInstanceOf(result, Uint8Array);
+      assertInstanceOf(result, Response);
       assertEquals(context.response.headers.get("Content-Type"), "image/png");
+      assertEquals(next.wasCalled(), false);
     });
 
     it("should serve nested files", async () => {

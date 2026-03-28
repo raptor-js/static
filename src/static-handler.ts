@@ -66,7 +66,7 @@ export default class StaticHandler {
       }
 
       const file = await Deno.readFile(filePath);
-      const ext = filePath.split(".").pop() || "";
+      const ext = filePath.split("/").pop()?.split(".").pop() ?? "";
       const type = contentType(ext);
 
       context.response.headers.set("Content-Type", type);
@@ -77,6 +77,12 @@ export default class StaticHandler {
         type === "application/xml";
 
       if (!isTextBased) {
+        if (ext && type !== "application/octet-stream") {
+          return new Response(file, {
+            headers: { "Content-Type": type },
+          });
+        }
+
         return file;
       }
 
