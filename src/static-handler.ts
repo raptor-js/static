@@ -1,4 +1,4 @@
-import type { Context, Middleware } from "@raptor/kernel";
+import type { Context, Middleware } from "@raptor/types";
 
 import type { Config } from "./config.ts";
 import { join, normalize } from "./utilities/path.ts";
@@ -54,7 +54,7 @@ export default class StaticHandler {
     const sanitizedPath = normalize(pathname.replace(/^\/+/, ""));
     const filePath = join(
       Deno.cwd(),
-      this.config?.staticFileDirectory!,
+      this.config?.directory!,
       sanitizedPath,
     );
 
@@ -110,7 +110,7 @@ export default class StaticHandler {
    */
   private initialiseDefaultConfig(): Config {
     return {
-      staticFileDirectory: "public",
+      directory: "public",
     };
   }
 }

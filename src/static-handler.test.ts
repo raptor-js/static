@@ -1,7 +1,7 @@
 /// <reference lib="deno.ns" />
 // deno-lint-ignore-file
 
-import type { Context } from "@raptor/kernel";
+import type { Context } from "@raptor/types";
 import { assertEquals, assertInstanceOf } from "@std/assert";
 import { afterEach, beforeEach, describe, it } from "@std/testing/bdd";
 
@@ -63,7 +63,7 @@ describe("static handler", () => {
       "<html>Nested</html>",
     );
 
-    handler = new StaticHandler({ staticFileDirectory: testDir });
+    handler = new StaticHandler({ directory: testDir });
   });
 
   afterEach(async () => {
@@ -74,16 +74,16 @@ describe("static handler", () => {
     it("should use default path when no path provided", () => {
       const defaultHandler = new StaticHandler();
 
-      assertEquals(defaultHandler.getConfig()["staticFileDirectory"], "public");
+      assertEquals(defaultHandler.getConfig()["directory"], "public");
     });
 
     it("should use provided path", () => {
       const customHandler = new StaticHandler({
-        staticFileDirectory: "custom-path",
+        directory: "custom-path",
       });
 
       assertEquals(
-        customHandler.getConfig()["staticFileDirectory"],
+        customHandler.getConfig()["directory"],
         "custom-path",
       );
     });
