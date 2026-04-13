@@ -2,6 +2,7 @@ import type { Context, Middleware } from "@raptor/types";
 
 import type { Config } from "./config.ts";
 import { join, normalize } from "./utilities/path.ts";
+import FilesystemManager from "./filesystem/manager.ts";
 import { contentType } from "./utilities/content-type.ts";
 
 /**
@@ -14,6 +15,11 @@ export default class StaticHandler {
   private config?: Config;
 
   /**
+   * The filesystem manager for runtime-agnostic file operations.
+   */
+  private filesystem: FilesystemManager;
+
+  /**
    * Construct a new static handler middlware.
    *
    * @param config A configurable path for the handler.
@@ -23,6 +29,8 @@ export default class StaticHandler {
       ...this.initialiseDefaultConfig(),
       ...config,
     };
+
+    this.filesystem = new FilesystemManager();
   }
 
   /**
@@ -39,6 +47,7 @@ export default class StaticHandler {
    *
    * @param context The request context.
    * @param next The next middleware.
+   *
    * @returns The static file contents for the response.
    */
   public async handleStaticFiles(
@@ -52,20 +61,23 @@ export default class StaticHandler {
     }
 
     const sanitizedPath = normalize(pathname.replace(/^\/+/, ""));
+
+    const fs = this.filesystem.getAdapter();
+
     const filePath = join(
-      Deno.cwd(),
+      fs.cwd(),
       this.config?.directory!,
       sanitizedPath,
     );
 
     try {
-      const stat = await Deno.stat(filePath);
+      const stat = await fs.stat(filePath);
 
       if (stat.isDirectory) {
         return next();
       }
 
-      const file = await Deno.readFile(filePath);
+      const file = await fs.readFile(filePath);
       const ext = filePath.split("/").pop()?.split(".").pop() ?? "";
       const type = contentType(ext);
 
