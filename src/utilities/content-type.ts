@@ -3,6 +3,8 @@ const MIME_TYPES: Record<string, string> = {
   html: "text/html",
   css: "text/css",
   js: "text/javascript",
+  mjs: "text/javascript",
+  cjs: "text/javascript",
   json: "application/json",
   xml: "application/xml",
   txt: "text/plain",
