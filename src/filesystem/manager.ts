@@ -31,10 +31,10 @@ export default class FilesystemManager {
    * @returns The name of the adapter to use.
    */
   protected getRuntime(): string {
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: the runtime global has no types here
     const Deno = (globalThis as any).Deno;
 
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: the runtime global has no types here
     const Bun = (globalThis as any).Bun;
 
     if (typeof Deno !== "undefined") {

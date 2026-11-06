@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-process-global
 import type { FilesystemAdapter } from "../adapter.ts";
 
 /**

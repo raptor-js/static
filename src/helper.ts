@@ -1,4 +1,4 @@
-import type { Middleware } from "@raptor/types";
+import type { Middleware } from "@raptor-js/types";
 
 import type { Config } from "./config.ts";
 import StaticHandler from "./static-handler.ts";

@@ -4,9 +4,7 @@
 
 <p align="center">
   <a href="https://github.com/raptor-js/static/actions"><img src="https://github.com/raptor-js/static/workflows/ci/badge.svg" alt="Build Status"></a>
-  <a href="jsr.io/@raptor/static"><img src="https://jsr.io/badges/@raptor/static" /></a>
-  <a href="jsr.io/@raptor/static score"><img src="https://jsr.io/badges/@raptor/static/score" /></a>
-  <a href="https://jsr.io/@raptor"><img src="https://jsr.io/badges/@raptor" alt="" /></a>
+  <a href="https://www.npmjs.com/package/@raptor-js/static"><img src="https://img.shields.io/npm/v/@raptor-js/static" alt="npm version" /></a>
 </p>
 
 ## Raptor Static

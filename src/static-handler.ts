@@ -1,4 +1,4 @@
-import type { Context, Middleware } from "@raptor/types";
+import type { Context, Middleware } from "@raptor-js/types";
 
 import type { Config } from "./config.ts";
 import { join, normalize } from "./utilities/path.ts";
@@ -64,11 +64,7 @@ export default class StaticHandler {
 
     const fs = this.filesystem.getAdapter();
 
-    const filePath = join(
-      fs.cwd(),
-      this.config?.directory!,
-      sanitizedPath,
-    );
+    const filePath = join(fs.cwd(), this.config?.directory!, sanitizedPath);
 
     try {
       const stat = await fs.stat(filePath);
@@ -83,7 +79,8 @@ export default class StaticHandler {
 
       context.response.headers.set("Content-Type", type);
 
-      const isTextBased = type.startsWith("text/") ||
+      const isTextBased =
+        type.startsWith("text/") ||
         type === "image/svg+xml" ||
         type === "application/json" ||
         type === "application/xml";

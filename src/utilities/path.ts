@@ -18,8 +18,5 @@ export function normalize(path: string): string {
  * @returns The newly built path string.
  */
 export function join(...paths: string[]): string {
-  return paths
-    .filter(Boolean)
-    .join("/")
-    .replace(/\/+/g, "/");
+  return paths.filter(Boolean).join("/").replace(/\/+/g, "/");
 }

@@ -1,9 +1,7 @@
-/// <reference lib="deno.ns" />
-// deno-lint-ignore-file
-
-import type { Context } from "@raptor/types";
-import { assertEquals, assertInstanceOf } from "@std/assert";
-import { afterEach, beforeEach, describe, it } from "@std/testing/bdd";
+import type { Context } from "@raptor-js/types";
+import assert from "node:assert/strict";
+import { mkdir, rm, writeFile } from "node:fs/promises";
+import { afterEach, beforeEach, describe, it } from "node:test";
 
 import StaticHandler from "../src/static-handler.ts";
 
@@ -41,40 +39,34 @@ describe("static handler", () => {
   let handler: StaticHandler;
 
   beforeEach(async () => {
-    await Deno.mkdir(testDir, { recursive: true });
+    await mkdir(testDir, { recursive: true });
 
-    await Deno.writeTextFile(
-      `${testDir}/index.html`,
-      "<html><body>Hello</body></html>",
-    );
-    await Deno.writeTextFile(`${testDir}/style.css`, "body { margin: 0; }");
-    await Deno.writeTextFile(`${testDir}/script.js`, "console.log('test');");
-    await Deno.writeTextFile(`${testDir}/data.json`, '{"key": "value"}');
-    await Deno.writeTextFile(`${testDir}/document.txt`, "Plain text content");
-    await Deno.writeTextFile(`${testDir}/readme.md`, "# Markdown");
-    await Deno.writeTextFile(`${testDir}/image.svg`, "<svg></svg>");
+    await writeFile(`${testDir}/index.html`, "<html><body>Hello</body></html>");
+    await writeFile(`${testDir}/style.css`, "body { margin: 0; }");
+    await writeFile(`${testDir}/script.js`, "console.log('test');");
+    await writeFile(`${testDir}/data.json`, '{"key": "value"}');
+    await writeFile(`${testDir}/document.txt`, "Plain text content");
+    await writeFile(`${testDir}/readme.md`, "# Markdown");
+    await writeFile(`${testDir}/image.svg`, "<svg></svg>");
 
     const pngHeader = new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10]);
-    await Deno.writeFile(`${testDir}/image.png`, pngHeader);
+    await writeFile(`${testDir}/image.png`, pngHeader);
 
-    await Deno.mkdir(`${testDir}/subdir`, { recursive: true });
-    await Deno.writeTextFile(
-      `${testDir}/subdir/nested.html`,
-      "<html>Nested</html>",
-    );
+    await mkdir(`${testDir}/subdir`, { recursive: true });
+    await writeFile(`${testDir}/subdir/nested.html`, "<html>Nested</html>");
 
     handler = new StaticHandler({ directory: testDir });
   });
 
   afterEach(async () => {
-    await Deno.remove(testDir, { recursive: true });
+    await rm(testDir, { recursive: true });
   });
 
   describe("constructor", () => {
     it("should use default path when no path provided", () => {
       const defaultHandler = new StaticHandler();
 
-      assertEquals(defaultHandler.getConfig()["directory"], "public");
+      assert.deepStrictEqual(defaultHandler.getConfig()["directory"], "public");
     });
 
     it("should use provided path", () => {
@@ -82,7 +74,7 @@ describe("static handler", () => {
         directory: "custom-path",
       });
 
-      assertEquals(
+      assert.deepStrictEqual(
         customHandler.getConfig()["directory"],
         "custom-path",
       );
@@ -96,8 +88,8 @@ describe("static handler", () => {
 
       const result = await handler.handle(context, next);
 
-      assertEquals(result, "next-called");
-      assertEquals(next.wasCalled(), true);
+      assert.deepStrictEqual(result, "next-called");
+      assert.deepStrictEqual(next.wasCalled(), true);
     });
 
     it("should call next() for non-existent files", async () => {
@@ -108,8 +100,8 @@ describe("static handler", () => {
 
       const result = await handler.handle(context, next);
 
-      assertEquals(result, "next-called");
-      assertEquals(next.wasCalled(), true);
+      assert.deepStrictEqual(result, "next-called");
+      assert.deepStrictEqual(next.wasCalled(), true);
     });
 
     it("should call next() for directory paths", async () => {
@@ -118,8 +110,8 @@ describe("static handler", () => {
 
       const result = await handler.handle(context, next);
 
-      assertEquals(result, "next-called");
-      assertEquals(next.wasCalled(), true);
+      assert.deepStrictEqual(result, "next-called");
+      assert.deepStrictEqual(next.wasCalled(), true);
     });
 
     it("should serve HTML file with correct content type", async () => {
@@ -128,10 +120,13 @@ describe("static handler", () => {
 
       const result = await handler.handle(context, next);
 
-      assertEquals(typeof result, "string");
-      assertEquals(result, "<html><body>Hello</body></html>");
-      assertEquals(context.response.headers.get("Content-Type"), "text/html");
-      assertEquals(next.wasCalled(), false);
+      assert.deepStrictEqual(typeof result, "string");
+      assert.deepStrictEqual(result, "<html><body>Hello</body></html>");
+      assert.deepStrictEqual(
+        context.response.headers.get("Content-Type"),
+        "text/html",
+      );
+      assert.deepStrictEqual(next.wasCalled(), false);
     });
 
     it("should serve CSS file with correct content type", async () => {
@@ -140,9 +135,12 @@ describe("static handler", () => {
 
       const result = await handler.handle(context, next);
 
-      assertEquals(typeof result, "string");
-      assertEquals(result, "body { margin: 0; }");
-      assertEquals(context.response.headers.get("Content-Type"), "text/css");
+      assert.deepStrictEqual(typeof result, "string");
+      assert.deepStrictEqual(result, "body { margin: 0; }");
+      assert.deepStrictEqual(
+        context.response.headers.get("Content-Type"),
+        "text/css",
+      );
     });
 
     it("should serve JavaScript file with correct content type", async () => {
@@ -151,9 +149,9 @@ describe("static handler", () => {
 
       const result = await handler.handle(context, next);
 
-      assertEquals(typeof result, "string");
-      assertEquals(result, "console.log('test');");
-      assertEquals(
+      assert.deepStrictEqual(typeof result, "string");
+      assert.deepStrictEqual(result, "console.log('test');");
+      assert.deepStrictEqual(
         context.response.headers.get("Content-Type"),
         "text/javascript",
       );
@@ -165,9 +163,9 @@ describe("static handler", () => {
 
       const result = await handler.handle(context, next);
 
-      assertEquals(typeof result, "string");
-      assertEquals(result, '{"key": "value"}');
-      assertEquals(
+      assert.deepStrictEqual(typeof result, "string");
+      assert.deepStrictEqual(result, '{"key": "value"}');
+      assert.deepStrictEqual(
         context.response.headers.get("Content-Type"),
         "application/json",
       );
@@ -179,9 +177,12 @@ describe("static handler", () => {
 
       const result = await handler.handle(context, next);
 
-      assertEquals(typeof result, "string");
-      assertEquals(result, "Plain text content");
-      assertEquals(context.response.headers.get("Content-Type"), "text/plain");
+      assert.deepStrictEqual(typeof result, "string");
+      assert.deepStrictEqual(result, "Plain text content");
+      assert.deepStrictEqual(
+        context.response.headers.get("Content-Type"),
+        "text/plain",
+      );
     });
 
     it("should serve markdown file with correct content type", async () => {
@@ -190,9 +191,9 @@ describe("static handler", () => {
 
       const result = await handler.handle(context, next);
 
-      assertEquals(typeof result, "string");
-      assertEquals(result, "# Markdown");
-      assertEquals(
+      assert.deepStrictEqual(typeof result, "string");
+      assert.deepStrictEqual(result, "# Markdown");
+      assert.deepStrictEqual(
         context.response.headers.get("Content-Type"),
         "text/markdown",
       );
@@ -204,9 +205,9 @@ describe("static handler", () => {
 
       const result = await handler.handle(context, next);
 
-      assertEquals(typeof result, "string");
-      assertEquals(result, "<svg></svg>");
-      assertEquals(
+      assert.deepStrictEqual(typeof result, "string");
+      assert.deepStrictEqual(result, "<svg></svg>");
+      assert.deepStrictEqual(
         context.response.headers.get("Content-Type"),
         "image/svg+xml",
       );
@@ -218,9 +219,12 @@ describe("static handler", () => {
 
       const result = await handler.handle(context, next);
 
-      assertInstanceOf(result, Response);
-      assertEquals(context.response.headers.get("Content-Type"), "image/png");
-      assertEquals(next.wasCalled(), false);
+      assert.ok(result instanceof Response);
+      assert.deepStrictEqual(
+        context.response.headers.get("Content-Type"),
+        "image/png",
+      );
+      assert.deepStrictEqual(next.wasCalled(), false);
     });
 
     it("should serve nested files", async () => {
@@ -231,9 +235,12 @@ describe("static handler", () => {
 
       const result = await handler.handle(context, next);
 
-      assertEquals(typeof result, "string");
-      assertEquals(result, "<html>Nested</html>");
-      assertEquals(context.response.headers.get("Content-Type"), "text/html");
+      assert.deepStrictEqual(typeof result, "string");
+      assert.deepStrictEqual(result, "<html>Nested</html>");
+      assert.deepStrictEqual(
+        context.response.headers.get("Content-Type"),
+        "text/html",
+      );
     });
 
     it("should handle paths with leading slashes", async () => {
@@ -242,39 +249,45 @@ describe("static handler", () => {
 
       const result = await handler.handle(context, next);
 
-      assertEquals(typeof result, "string");
-      assertEquals(result, "<html><body>Hello</body></html>");
+      assert.deepStrictEqual(typeof result, "string");
+      assert.deepStrictEqual(result, "<html><body>Hello</body></html>");
     });
 
     it("should handle files without extension", async () => {
-      await Deno.writeTextFile(`${testDir}/noext`, "No extension file");
+      await writeFile(`${testDir}/noext`, "No extension file");
 
       const context = createMockContext("http://localhost:3000/noext");
       const next = createMockNext();
 
       const result = await handler.handle(context, next);
 
-      assertInstanceOf(result, Uint8Array);
+      assert.ok(result instanceof Uint8Array);
       const decoder = new TextDecoder("utf-8");
-      assertEquals(decoder.decode(result as Uint8Array), "No extension file");
-      assertEquals(
+      assert.deepStrictEqual(
+        decoder.decode(result as Uint8Array),
+        "No extension file",
+      );
+      assert.deepStrictEqual(
         context.response.headers.get("Content-Type"),
         "application/octet-stream",
       );
     });
 
     it("should handle unknown file extensions", async () => {
-      await Deno.writeTextFile(`${testDir}/file.xyz`, "Unknown extension");
+      await writeFile(`${testDir}/file.xyz`, "Unknown extension");
 
       const context = createMockContext("http://localhost:3000/file.xyz");
       const next = createMockNext();
 
       const result = await handler.handle(context, next);
 
-      assertInstanceOf(result, Uint8Array);
+      assert.ok(result instanceof Uint8Array);
       const decoder = new TextDecoder("utf-8");
-      assertEquals(decoder.decode(result as Uint8Array), "Unknown extension");
-      assertEquals(
+      assert.deepStrictEqual(
+        decoder.decode(result as Uint8Array),
+        "Unknown extension",
+      );
+      assert.deepStrictEqual(
         context.response.headers.get("Content-Type"),
         "application/octet-stream",
       );

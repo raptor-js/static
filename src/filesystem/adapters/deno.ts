@@ -1,4 +1,3 @@
-// deno-lint-ignore-file require-await
 import type { FilesystemAdapter } from "../adapter.ts";
 
 /**
@@ -11,7 +10,7 @@ export default class DenoFilesystem implements FilesystemAdapter {
    * @returns The current working directory.
    */
   public cwd(): string {
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: the runtime global has no types here
     return (globalThis as any).Deno.cwd();
   }
 
@@ -22,7 +21,7 @@ export default class DenoFilesystem implements FilesystemAdapter {
    * @returns File information.
    */
   public async stat(path: string): Promise<{ isDirectory: boolean }> {
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: the runtime global has no types here
     const stat = await (globalThis as any).Deno.stat(path);
 
     return { isDirectory: stat.isDirectory };
@@ -35,7 +34,7 @@ export default class DenoFilesystem implements FilesystemAdapter {
    * @returns The file contents as a Uint8Array.
    */
   public async readFile(path: string): Promise<Uint8Array<ArrayBuffer>> {
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: the runtime global has no types here
     return (globalThis as any).Deno.readFile(path);
   }
 }
